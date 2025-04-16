@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Hardzone & Balikesirli – Hackerzone</title>
+  <style>
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(2px, -1px); }
+      60% { transform: translate(-1px, 1px); }
+      80% { transform: translate(1px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    @keyframes progress {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    @keyframes fade {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    body {
+  background-color: #000;
+  color: #00ff00;
+  font-family: monospace;
+  margin: 0;
+  padding: 20px;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #0f0;
+      animation: glitch 0.5s infinite;
+    }
+
+    .matrix {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    .terminal {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px;
+      border: 1px solid #00ff00;
+      margin-top: 20px;
+      max-width: 800px;
+  text-align: left;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fade 2s ease-in;
+    }
+
+    button, select {
+      background: #000;
+      border: 1px solid #0f0;
+      color: #0f0;
+      padding: 10px;
+      font-family: monospace;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .log {
+      margin-top: 10px;
+      font-size: 0.9em;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    input[type=text] {
+      background: #000;
+      border: 1px solid #0f0;
+      color: #0f0;
+      padding: 8px;
+      width: 100%;
+      font-family: monospace;
+      margin-top: 10px;
+    }
+
+    #progressBar {
+      width: 0%;
+      height: 10px;
+      background: #0f0;
+      animation: progress 3s linear forwards;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .hud {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 0.9em;
+      color: #0f0;
+    }
+
+    .flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #00ff00;
+      opacity: 0;
+      z-index: 9999;
+      pointer-events: none;
+      transition: opacity 0.1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="matrix"></canvas>
+  <div class="flash" id="flashEffect"></div>
+  <div class="hud">
+    [✔] AimBot aktiv<br>
+    [✔] KD-Booster geladen<br>
+    [✖] Ban-Schutz nicht verfügbar
+  $1
+  <div class="story">
+  <h3 style="cursor:pointer;" onclick="toggleStory()">▶ So haben sich Balikesirli & Hardzone gefunden</h3>
+  <div id="storyText" style="display:none; margin-top:10px;">
+    <p>
+      Hardzone, Balikesirli und Lena waren zufällig in Hubba unterwegs. Eigentlich wollte Hardzone nur ein Gespräch mit Lena führen,
+      doch Balikesirli war der, der wirklich zuhörte. Dadurch entstand eine echte Connection. 
+      Die beiden kamen direkt super klar, zockten gemeinsam und lachten über denselben Unsinn.
+    </p>
+    <p>
+      Durch Hardzone hat sich Balikesirli sogar einen PC geholt – und die beiden lieben es zu cheaten.
+      Aus einem Zufall wurde eine echte Internet-Buddy-Connection. Ein Treffen im echten Leben? Nur noch eine Frage der Zeit. 💻🔥
+    </p>
+  </div>
+</div>
+<script>
+  function toggleStory() {
+    const text = document.getElementById("storyText");
+    const heading = document.querySelector(".story h3");
+    const isOpen = text.style.display === "block";
+    text.style.display = isOpen ? "none" : "block";
+    heading.textContent = isOpen ? "▶ So haben sich Balikesirli & Hardzone gefunden" : "▼ So haben sich Balikesirli & Hardzone gefunden";
+  }
+</script>
+  <p style="text-align:center;">„Lobby-Götter im Schatten der Firewall.“</p>
+
+  <div class="terminal">
+    <p>> SYSTEM BOOTING...</p>
+    <p>> Initialisiere Hardzone Interface...</p>
+    <p>> Terminal freigegeben ✅</p>
+
+    <div>
+      <label>Cheat Builder:</label><br>
+      <select onchange="logAction('🔧 AimBot-Stufe gesetzt auf ' + this.value)">
+        <option disabled selected>AimBot-Stufe wählen</option>
+        <option>1 - Basic Snap</option>
+        <option>2 - Smooth Aim</option>
+        <option>3 - Silent Aim</option>
+      </select>
+      <select onchange="logAction('🧱 Wallhack-Typ: ' + this.value)">
+        <option disabled selected>Wallhack wählen</option>
+        <option>ESP Box</option>
+        <option>Glow ESP</option>
+        <option>X-Ray</option>
+      </select>
+    </div>
+
+    <button onclick="logAction('💉 AimBot injiziert!')">AimBot spritzen</button>
+    <button onclick="logAction('🧠 Wallhack aktiviert!')">Wallhack laden</button>
+    <button onclick="logAction('🧪 skill.exe läuft...')">Skill.exe starten</button>
+    <button onclick="logAction('🚀 Turbo-KD aktiviert')">K/D Boosten</button>
+    <button onclick="triggerDownload()">Hack installieren 💾</button>
+
+    <div id="progressBar"></div>
+
+    <input type="text" id="terminalInput" placeholder="> Befehl eingeben..." onkeydown="handleInput(event)">
+    <div class="log" id="log"></div>
+  </div>
+
+  <script>
+    const hackerQuotes = [
+      "Niemand ist legit, nur schlecht versteckt.",
+      "Killstreaks sind Zufall – wir sind das System.",
+      "Der Aim macht die Arbeit, wir chillen.",
+      "Aktiviere Skill.exe... Erfolg!",
+      "KD-Level: Jenseits der Menschlichkeit."
+    ];
+
+    const fakeLogs = [
+      "Hardzone scannt die Lobby...",
+      "Balikesirli sendet Paket an Activision HQ...",
+      "KD-Boost aktiv...",
+      "Bypass aktiviert...",
+      "Wallcheck: Gegner durchlässig."
+    ];
+
+    function logAction(msg) {
+      const log = document.getElementById("log");
+      const time = new Date().toLocaleTimeString();
+      log.innerHTML += `[${time}] ${msg}<br>`;
+    }
+
+    function flashEffect() {
+      const flash = document.getElementById("flashEffect");
+      flash.style.opacity = 0.8;
+      setTimeout(() => {
+        flash.style.opacity = 0;
+      }, 100);
+    }
+
+    function handleInput(e) {
+      if (e.key === "Enter") {
+        const input = e.target.value;
+        if (input.toLowerCase() === "blackmarket") {
+          logAction("🔓 Zugriff auf geheimen Schwarzmarkt! 💰");
+          window.open("https://i.imgur.com/kcEGrnG.jpeg", "_blank");
+        } else if (input.toLowerCase().includes("inject")) {
+          logAction("✅ Injection erfolgreich! AimBot läuft.");
+        } else if (input.toLowerCase().includes("balikesirli")) {
+          logAction("🧠 balikesirli.exe mit Erfolg aktiviert.");
+        } else {
+          logAction(`❓ Unbekannter Befehl: ${input}`);
+        }
+        e.target.value = "";
+      }
+    }
+
+    function triggerDownload() {
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.display = "block";
+      progressBar.style.width = "0%";
+      progressBar.style.animation = "progress 3s linear forwards";
+      logAction("💾 Hack wird heruntergeladen...");
+
+      setTimeout(() => {
+        const link = document.createElement("a");
+        link.href = "https://i.imgur.com/kcEGrnG.jpeg";
+        link.download = "hack.jpeg";
+        link.click();
+        logAction("✅ Installation abgeschlossen!");
+      }, 3000);
+    }
+
+    setInterval(() => {
+      const quote = hackerQuotes[Math.floor(Math.random() * hackerQuotes.length)];
+      logAction(`🧠 ${quote}`);
+    }, 10000);
+
+    setInterval(() => {
+      const logEntry = fakeLogs[Math.floor(Math.random() * fakeLogs.length)];
+      logAction(logEntry);
+    }, 8000);
+
+    document.addEventListener("keydown", function(e) {
+      if (e.ctrlKey && e.key.toLowerCase() === "h") {
+        logAction("☠️ GODMODE aktiviert ☠️");
+      }
+      flashEffect();
+    });
+
+    const canvas = document.querySelector('.matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const letters = "010101";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 33);
+  </script>
+</body>
+</html>
